@@ -27,6 +27,10 @@ Getting recommendations:
 
 == INSTALL:
 
+  sudo gem install rcicindela
+
+or
+
  gem source -a http://gems.github.com
  sudo gem install jugyo-rcicindela
 

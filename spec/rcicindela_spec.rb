@@ -24,7 +24,7 @@ describe RCicindela do
   describe 'Create instance with "http://localhost/cicindela" as base_uri' do
     before(:each) do
       @cicindela = RCicindela.new('http://localhost/cicindela')
-    end  
+    end
 
     it 'call method "get" when call insert_pick' do
       @cicindela.should_receive(:get).with('record', {:op => 'insert_pick', :set => 'test', :user_id => 1, :item_id => 1})
@@ -50,5 +50,22 @@ describe RCicindela do
       result.should == 'result'
     end
   end
-end
 
+  describe 'Create instance with default option' do
+    before(:each) do
+      @cicindela = RCicindela.new('http://localhost/cicindela', :set => 'test', :user_id => 1)
+    end
+
+    it 'call method "get" when call insert_pick' do
+      @cicindela.should_receive(:get).with('record', {:op => 'insert_pick', :item_id => 1})
+      @cicindela.insert_pick(:item_id => 1)
+    end
+
+    it 'call method "open" when call insert_pick' do
+      @cicindela.should_receive(:open).
+        with("http://localhost/cicindela/record?item_id=1&op=insert_pick&set=test&user_id=1").and_return(StringIO.new('result'))
+      result = @cicindela.insert_pick(:item_id => 1)
+      result.should == 'result'
+    end
+  end
+end

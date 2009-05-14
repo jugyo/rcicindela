@@ -3,10 +3,11 @@ require 'open-uri'
 class RCicindela
   VERSION = '0.1.0'
 
-  attr_reader :base_uri
+  attr_reader :base_uri, :default_options
 
-  def initialize(base_uri)
+  def initialize(base_uri, default_options = {})
     @base_uri = base_uri.sub(/\/*$/, '')
+    @default_options = default_options
   end
 
   %w(
@@ -33,8 +34,8 @@ class RCicindela
   private
 
   def get(prefix, params)
+    params = default_options.merge(params)
     url = base_uri + '/' + prefix + '?' + params.map{ |k, v| [k.to_s, v.to_s] }.sort.map{ |i| i.join('=') }.join('&')
     open(url).read
   end
 end
-

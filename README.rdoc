@@ -5,6 +5,8 @@ http://wiki.github.com/jugyo/rcicindela
 == DESCRIPTION:
 
 RCicindela is a wrapper library for Cicindela.
+Cicindela is a recommendation engine made by Livedoor.
+See Also: http://code.google.com/p/cicindela2/
 
 == SYNOPSIS:
 

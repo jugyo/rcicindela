@@ -1,7 +1,7 @@
 require 'open-uri'
 
 class RCicindela
-  VERSION = '0.1.0'
+  VERSION = '0.1.1'
 
   attr_reader :base_uri, :default_options
 

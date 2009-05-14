@@ -1,6 +1,8 @@
 require 'open-uri'
 
 class RCicindela
+  VERSION = '0.1.0'
+
   attr_reader :base_uri
 
   def initialize(base_uri)

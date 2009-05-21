@@ -1,13 +1,18 @@
-require 'open-uri'
+require 'net/http'
 
 class RCicindela
   VERSION = '0.1.1'
 
-  attr_reader :base_uri, :default_options
+  attr_reader :host, :port, :base_path, :timeout, :default_params
 
-  def initialize(base_uri, default_options = {})
-    @base_uri = base_uri.sub(/\/*$/, '')
-    @default_options = default_options
+  def initialize(host, options = {})
+    @host = host
+    @port = options[:port] || 80
+    @base_path = options[:base_path] || '/'
+    @timeout = options[:timeout] || 1
+    @default_params = options[:default_params] || {}
+
+    @base_path.sub!(/\/+$/, '')
   end
 
   %w(
@@ -27,15 +32,24 @@ class RCicindela
   ).each do |api_method|
     prefix, method = api_method.split('/')
     define_method(method) do |params|
-      get(prefix, {:op => method}.merge(params))
+      request(prefix, {:op => method}.merge(params))
     end
   end
 
   private
 
-  def get(prefix, params)
-    params = default_options.merge(params)
-    url = base_uri + '/' + prefix + '?' + params.map{ |k, v| [k.to_s, v.to_s] }.sort.map{ |i| i.join('=') }.join('&')
-    open(url).read
+  def request(prefix, params)
+    params = default_params.merge(params)
+    path = base_path + '/' + prefix + '?' + params.map{ |k, v| [k.to_s, v.to_s] }.sort.map{ |i| i.join('=') }.join('&')
+    get(path)
+  end
+
+  def get(path)
+    result = nil
+    Net::HTTP.start(host, port) do |http|
+      http.open_timeout = http.read_timeout = timeout
+      result = http.get(path).body
+    end
+    result
   end
 end

@@ -3,6 +3,14 @@ require 'net/http'
 class RCicindela
   VERSION = '0.2.0'
 
+  class APIError < StandardError
+    attr_reader :response
+    def initialize(response, message = '')
+      super(message)
+      @response = response
+    end
+  end
+
   attr_reader :host, :port, :base_path, :timeout, :default_params
 
   def initialize(host, options = {})
@@ -45,11 +53,14 @@ class RCicindela
   end
 
   def get(path)
-    result = nil
     Net::HTTP.start(host, port) do |http|
       http.open_timeout = http.read_timeout = timeout
-      result = http.get(path).body
+      response = http.get(path)
+      if response.code =~ /^2/
+        response.body
+      else
+        raise APIError.new(response)
+      end
     end
-    result
   end
 end

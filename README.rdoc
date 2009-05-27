@@ -13,7 +13,7 @@ See Also: http://code.google.com/p/cicindela2/
 
 Initialization:
 
-  cicindela = RCicindela.new('http://localhost/cicindela')
+  cicindela = RCicindela.new('localhost', :port => 30000, :timeout => 3)
 
 Accumulating data:
 

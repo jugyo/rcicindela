@@ -11,6 +11,13 @@ class RCicindela
     end
   end
 
+  class TimeoutError < StandardError
+    attr_reader :error
+    def initialize(error, message = '')
+      @error = error
+    end
+  end
+
   attr_reader :host, :port, :base_path, :timeout, :default_params
 
   def initialize(host, options = {})
@@ -64,5 +71,7 @@ class RCicindela
         raise APIError.new(response)
       end
     end
+  rescue Timeout::Error => e
+    raise TimeoutError.new(e)
   end
 end

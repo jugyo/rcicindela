@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'rcicindela'
-  s.version = '0.3.1'
+  s.version = '0.3.2'
   s.summary = "RCicindela is a wrapper library for Cicindela."
   s.description = "RCicindela is a wrapper library for Cicindela.\n" +
     "Cicindela is a recommendation engine made by Livedoor.\n" +

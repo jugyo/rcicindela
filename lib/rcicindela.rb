@@ -1,7 +1,7 @@
 require 'net/http'
 
 class RCicindela
-  VERSION = '0.3.1'
+  VERSION = '0.3.2'
 
   class APIError < StandardError
     attr_reader :response

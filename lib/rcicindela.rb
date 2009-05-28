@@ -53,8 +53,10 @@ class RCicindela
   end
 
   def get(path)
-    Net::HTTP.start(host, port) do |http|
-      http.open_timeout = http.read_timeout = timeout
+    http = Net::HTTP.new(host, port)
+    http.open_timeout = timeout
+    http.read_timeout = timeout
+    http.start do |http|
       response = http.get(path)
       if response.code =~ /^2/
         response.body
